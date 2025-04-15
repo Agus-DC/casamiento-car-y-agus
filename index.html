@@ -13,6 +13,13 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>    
+    <style>
+        .guest-input {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <!-- Preloader -->
@@ -137,12 +144,12 @@
                             </div>
                         </div>
                         <div class="col-md-7 animate-box" data-animate-effect="fadeInRight">
-                            <h4 class="oliven-story-subtitle">Our love.</h4>
-                            <h3 class="oliven-story-title">Our Story</h3>
+                            <h4 class="oliven-story-subtitle">Sobre nosotros.</h4>
+                            <h3 class="oliven-story-title">Nuestra historia</h3>
                             <p>Curabit aliquet orci elit genes tristique lorem commodo vitae. Tuliaum tincidunt nete sede gravida aliquam, neque libero hendrerit magna, sit amet mollis lacus ithe maurise. Dunya erat volutpat edat themo the druanye semper.</p>
                             <p>Luality fringilla duiman at elit vinibus viverra nec a lacus themo the druanye sene sollicitudin mi suscipit non sagie the fermen.</p>
                             <p>Phasellus viverra tristique justo duis vitae diam neque nivamus ac est augue artine aringilla dui at elit finibus viverra nec a lacus. Nedana themo eros odio semper soe suscipit non. Curabit aliquet orci elit genes tristique.</p>
-                            <h4>Dec 5th, 2025, We Said Yes!</h4>
+                            <h4>Dic 20, 2025!</h4>
                             <p>Luality fringilla duiman at elit finibus viverra nec a lacus themo the druanye sene sollicitudin mi suscipit non sagie the fermen.</p>
                         </div>
                     </div>
@@ -154,8 +161,8 @@
                     <div class="row">
                         <div class="section-head col-md-12 text-center"> 
                             <span><i class="ti-heart"></i></span>
-                            <h4>Looking forward to see you!</h4>
-                            <h3>15.11.2025</h3> 
+                            <h4>Te esperamos!</h4>
+                            <h3>20.12.2025</h3> 
                         </div>
                     </div>
                 </div>
@@ -312,18 +319,47 @@
                             </div>
                             <!-- form element -->
                             <div class="row">
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <input name="name" type="text" class="form-control" placeholder="Nombre" required> </div>
                                 </div>
-                                <div class="col-md-12">
+                                <head>
+                                    <meta charset="UTF-8">
+                                    <title>Invitados por familia</title>
+                                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+                                    <style>
+                                        .guest-input {
+                                            display: none;
+                                        }
+                                    </style>
+                                </head>
+                            
+                                
+                                <div class="container">
                                     <div class="form-group">
-                                        <input name="email" type="email" class="form-control" placeholder="Email" required> </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input name="guests" type="text" class="form-control" placeholder="Cantidad de invitados" required> </div>
-                                </div>
+                                        <input type="text" class="form-control" id="familyName" placeholder="Apellido">
+                                    </div>
+                                
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="button" id="loadGuests" class="btn buttono" value="Cargar invitados">
+                                        </div>
+                                    </div>
+
+                                    <div id="guestSection" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="guestCount">Seleccionar cantidad de invitados</label>
+                                            <select id="guestCount" class="form-control" name="guests" required>
+                                                <option value="">Seleccionar...</option>
+                                                <!-- Opciones agregadas por JavaScript -->
+                                            </select>
+                                        </div>
+                                    
+                                        <div id="guestNamesContainer">
+                                            <!-- Inputs agregados por JavaScript -->
+                                        </div>
+                                    </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Comentarios adicionales"></textarea>
@@ -338,6 +374,7 @@
                             </form>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
             
@@ -345,16 +382,20 @@
             <div id="gift" class="gift-section gift">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-3 mb-30">
+                        
                             <br> <span class="oliven-title-meta">Regalos</span>
                             <p>Tu presencia en este evento tan especial para nosotros es mas que suficiente, sin embargo, si 
                                 deseas realizarnos un obsequio lo recibiremos con gusto.
                             </p>
 
                             <h2 class="oliven-title"></h2> 
-                            <p>CVU: 12312321321
+                            <p>
+                                <p>CVU($)       : 12312321321 Agustincito pesos</p>
+                                
+                                <p>CBU(U$S)     : 12312321321 Agustincito dolars</p>
+                                
+                                <p>CVU(Crypto)  : 12312321321 </p>
                             </p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -386,4 +427,121 @@
         <script src="js/main.js"></script>
     </div>
 </body>
+
+<script>
+    // Lista de familias y su cupo máximo
+    const familyLimits = {
+        "perez": 4,
+        "gomez": 2,
+        "rodriguez": 6
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const loadGuestsBtn = document.getElementById("loadGuests");
+        const familyNameInput = document.getElementById("familyName");
+        const guestCountSelect = document.getElementById("guestCount");
+        const guestSection = document.getElementById("guestSection");
+
+        const updateGuestInputs = (count) => {
+            for (let i = 1; i <= 10; i++) {
+                const inputDiv = document.getElementById(`guestInput${i}`);
+                inputDiv.style.display = (i <= count) ? "block" : "none";
+            }
+        };
+
+        guestCountSelect.addEventListener("change", function () {
+            const selected = parseInt(this.value);
+            updateGuestInputs(selected);
+        });
+
+        loadGuestsBtn.addEventListener("click", () => {
+            const name = familyNameInput.value.trim().toLowerCase();
+            const maxGuests = familyLimits[name];
+
+            if (!maxGuests) {
+                alert("Nombre no reconocido. Por favor, verifique el apellido.");
+                guestSection.style.display = "none";
+                return;
+            }
+
+            // Mostrar la sección e inicializar valores
+            guestSection.style.display = "block";
+
+            // Llenar select con opciones hasta el máximo permitido
+            guestCountSelect.innerHTML = '<option value="">Seleccionar...</option>';
+            for (let i = 1; i <= maxGuests; i++) {
+                guestCountSelect.innerHTML += `<option value="${i}">${i}</option>`;
+            }
+
+            // Seleccionar por defecto el número máximo
+            guestCountSelect.value = maxGuests;
+            updateGuestInputs(maxGuests);
+        });
+    });
+</script>
+
+<script>
+    const guestCountSelect = document.getElementById("guestCount");
+    const guestNamesContainer = document.getElementById("guestNamesContainer");
+
+    // Función para generar las opciones del select
+    function populateGuestCount(maxGuests) {
+        guestCountSelect.innerHTML = '<option value="">Seleccionar...</option>';
+        for (let i = 1; i <= maxGuests; i++) {
+            const option = document.createElement("option");
+            option.value = i;
+            option.textContent = i;
+            guestCountSelect.appendChild(option);
+        }
+    }
+
+    // Función para mostrar los campos de nombre
+    function generateGuestInputs(count) {
+        guestNamesContainer.innerHTML = '';
+        for (let i = 1; i <= count; i++) {
+            const div = document.createElement("div");
+            div.className = "form-group guest-input";
+            div.id = `guestInput${i}`;
+            div.innerHTML = `
+                <input type="text" class="form-control" name="guest_name_${i}" placeholder="Nombre del invitado ${i}">
+            `;
+            guestNamesContainer.appendChild(div);
+        }
+    }
+
+    // Cuando cambia el select
+    guestCountSelect.addEventListener("change", function () {
+        const selectedCount = parseInt(this.value);
+        if (!isNaN(selectedCount)) {
+            generateGuestInputs(selectedCount);
+        }
+    });
+
+    // Esta función la podés llamar cuando el usuario ingrese su apellido, por ejemplo:
+    function loadGuestsForFamily(familyName) {
+        const familyLimits = {
+            "perez": 4,
+            "gomez": 2,
+            "rodriguez": 6
+        };
+
+        const lowerName = familyName.toLowerCase();
+        const maxGuests = familyLimits[lowerName];
+
+        if (!maxGuests) {
+            alert("Apellido no reconocido");
+            document.getElementById("guestSection").style.display = "none";
+            return;
+        }
+
+        document.getElementById("guestSection").style.display = "block";
+        populateGuestCount(maxGuests);
+        guestCountSelect.value = maxGuests;
+        generateGuestInputs(maxGuests);
+    }
+
+    // Llamada de ejemplo (reemplazá esto con la lógica de tu input):
+    // loadGuestsForFamily("Pérez");
+</script>
+
 </html>
