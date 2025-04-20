@@ -14,7 +14,14 @@
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+    emailjs.init('aTCE1EVNz03l8bayd')
+    </script>   
+    
+    
     <style>
         .guest-input {
             display: none;
@@ -367,9 +374,11 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input name="submit" type="submit" class="btn buttono" value="ENVIAR"> 
+                                        <input name="submit" id="button" type="submit" class="btn buttono" value="ENVIAR"> 
                                     </div>
                                 </div> 
+                                            <!-- Para tener toda la data y enviarla por email -->
+                                            <input type="hidden" name="full_data" id="full_data" />
                             </div>
                             </form>
                         </div>
@@ -542,6 +551,34 @@
 
     // Llamada de ejemplo (reemplazá esto con la lógica de tu input):
     // loadGuestsForFamily("Pérez");
+</script>
+
+<script>
+const btn = document.getElementById('button');
+
+document.querySelector('form').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  btn.value = 'Enviando...';
+
+  const serviceID = 'default_service'; // Reemplazá con tu ID real
+  const templateID = 'template_fn269ho';       // Reemplazá con tu ID real
+
+  const formData = new FormData(document.querySelector('form'));
+  const data = Object.fromEntries(formData.entries());
+
+  document.getElementById('full_data').value = JSON.stringify(data, null, 2); // JSON con indentación
+  console.log("Datos enviados a EmailJS:", data);
+
+  emailjs.sendForm(serviceID, templateID, this)
+    .then(() => {
+      btn.value = 'ENVIAR';
+      alert('¡Mensaje enviado!');
+    }, (err) => {
+      btn.value = 'ENVIAR';
+      alert('Error: ' + JSON.stringify(err));
+    });
+});
 </script>
 
 </html>
