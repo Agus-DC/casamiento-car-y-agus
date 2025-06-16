@@ -346,7 +346,7 @@
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input name="name" type="text" class="form-control" placeholder="Nombre" required>
+                                        <input name="name" type="text" class="form-control" id="name" placeholder="Nombre" required>
                                     </div>
                                     <div class="form-group">
                                         <input name ="apellido" type="text" class="form-control" id="familyName" placeholder="Apellido" required>
@@ -458,13 +458,54 @@
 <script>
     // Lista de familias y su cupo máximo
     const familyLimits = {
-        "perez": 4,
-        "gomez": 2,
-        "rodriguez": 6
+        "christiangama": 2,
+        "marcelamolina": 2,
+        "jazmingama": 2,
+
+        "melanymontiel": 2,
+        "sergiobenitez": 2,
+        "milomontiel": 2,
+
+        "marcelachamorro": 1,
+        "emigdiomontiel": 1,
+
+        "pablodecarlo": 2,
+        
+        "daviddecarlo": 5,
+        
+        "romandecarlo": 1,
+        
+        "tatianadecarlo": 1,
+        
+        "diegodecarlo": 3,
+        
+        "fernandochamorro": 5,
+        
+        "samantamorel": 3,
+        
+        "mirthasoto": 1,
+        "jorgegimenez": 1,
+        
+        "rosanagimenez": 2,
+
+        "hernansegovia": 3,
+        
+        "matiasparamidani": 1,
+        "alanperez": 2,
+        "lucassasso": 2,
+        "nicolasrassit": 1,
+        "danieltorres": 1,
+    
+        "normamolina": 3,
+        "lauramolina": 4,
+        "martamolina": 1,
+
+        "carlamontiel": 1
     };
 
     document.addEventListener("DOMContentLoaded", () => {
         const loadGuestsBtn = document.getElementById("loadGuests");
+        const nameInput = document.getElementById("name");
         const familyNameInput = document.getElementById("familyName");
         const guestCountSelect = document.getElementById("guestCount");
         const guestSection = document.getElementById("guestSection");
@@ -483,8 +524,9 @@
         });
 
         loadGuestsBtn.addEventListener("click", () => {
-            const name = familyNameInput.value.trim().toLowerCase();
-            const maxGuests = familyLimits[name];
+            const name = nameInput.value.trim().toLowerCase();
+            const surname = familyNameInput.value.trim().toLowerCase();
+            const maxGuests = familyLimits[name+surname];
 
             if (!maxGuests) {
                 alert("Nombre no reconocido. Por favor, verifique el apellido.");
