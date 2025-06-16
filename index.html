@@ -456,164 +456,110 @@
 </body>
 
 <script>
-    // Lista de familias y su cupo máximo
-    const familyLimits = {
-        "christiangama": 2,
-        "marcelamolina": 2,
-        "jazmingama": 2,
+/*
+const familyLimits = {
+  "christiangama": 2,
+  "marcelamolina": 2,
+  "jazmingama": 2,
+  "melanymontiel": 2,
+  "sergiobenitez": 2,
+  "milomontiel": 2,
+  "marcelachamorro": 1,
+  "emigdiomontiel": 1,
+  "pablodecarlo": 2,
+  "daviddecarlo": 5,
+  "romandecarlo": 1,
+  "tatianadecarlo": 1,
+  "diegodecarlo": 3,
+  "fernandochamorro": 5,
+  "samantamorel": 3,
+  "mirthasoto": 1,
+  "jorgegimenez": 1,
+  "rosanagimenez": 2,
+  "hernansegovia": 3,
+  "matiasparamidani": 1,
+  "alanperez": 2,
+  "lucassasso": 2,
+  "nicolasrassit": 1,
+  "danieltorres": 1,
+  "normamolina": 3,
+  "lauramolina": 4,
+  "martamolina": 1,
+  "carlamontiel": 1
+};*/
 
-        "melanymontiel": 2,
-        "sergiobenitez": 2,
-        "milomontiel": 2,
 
-        "marcelachamorro": 1,
-        "emigdiomontiel": 1,
-
-        "pablodecarlo": 2,
-        
-        "daviddecarlo": 5,
-        
-        "romandecarlo": 1,
-        
-        "tatianadecarlo": 1,
-        
-        "diegodecarlo": 3,
-        
-        "fernandochamorro": 5,
-        
-        "samantamorel": 3,
-        
-        "mirthasoto": 1,
-        "jorgegimenez": 1,
-        
-        "rosanagimenez": 2,
-
-        "hernansegovia": 3,
-        
-        "matiasparamidani": 1,
-        "alanperez": 2,
-        "lucassasso": 2,
-        "nicolasrassit": 1,
-        "danieltorres": 1,
-    
-        "normamolina": 3,
-        "lauramolina": 4,
-        "martamolina": 1,
-
-        "carlamontiel": 1
-    };
-
+    const encodedData = "eyJjaHJpc3RpYW5nYW1hIjoyLCJtYXJjZWxhbW9saW5hIjoyLCJqYXptaW5nYW1hIjoyLCJtZWxhbnltb250aWVsIjoyLCJzZXJnaW9iZW5pdGV6IjoyLCJtaWxvbW9udGllbCI6Miwi bWFyY2VsYWNoYW1vcnJvIjoxLCJlbWlnZGlvbW9udGllbCI6MSwicGFibG9kZWNhcmxvIjoyLCJkYXZpZGRlY2FybG8iOjUsInJvbWFuZGVjYXJsbyI6MSwidGF0aWFuYWRlY2FybG8iOjEsImRpZWdvZGVjYXJsbyI6MywiZmVybmFuZG9jaGFtb3JybyI6NSwic2FtYW50YW1vcmVsIjozLCJtaXJ0aGFzb3RvIjoxLCJqb3JnZWdpbWVuZXoiOjEsInJvc2FuYWdpbWVuZXoiOjIsImhlcm5hbnNlZ292aWEiOjMsIm1hdGlhc3BhcmFtaWRhbmkiOjEsImFsYW5wZXJleiI6Miwi bHVjYXNzYXNzbyI6Miwi bmljb2xhc3Jhc3NpdCI6MSwiZGFuaWVsdG9ycmVzIjoxLCJub3JtYW1vbGluYSI6MywibGF1cmFtb2xpbmEiOjQsIm1hcnRhbW9saW5hIjoxLCJjYXJsYW1vbnRpZWwiOjF9";
+    const familyLimits = JSON.parse(atob(encodedData.replace(/\s/g, ''))); // Limpia espacios por si los hay
+  
     document.addEventListener("DOMContentLoaded", () => {
-        const loadGuestsBtn = document.getElementById("loadGuests");
-        const nameInput = document.getElementById("name");
-        const familyNameInput = document.getElementById("familyName");
-        const guestCountSelect = document.getElementById("guestCount");
-        const guestSection = document.getElementById("guestSection");
-        // Concatenar el nombre con el apellido para realizar el guardado
-
-        const updateGuestInputs = (count) => {
-            for (let i = 1; i <= 10; i++) {
-                const inputDiv = document.getElementById(`guestInput${i}`);
-                inputDiv.style.display = (i <= count) ? "block" : "none";
-            }
-        };
-
-        guestCountSelect.addEventListener("change", function () {
-            const selected = parseInt(this.value);
-            updateGuestInputs(selected);
-        });
-
-        loadGuestsBtn.addEventListener("click", () => {
-            const name = nameInput.value.trim().toLowerCase();
-            const surname = familyNameInput.value.trim().toLowerCase();
-            const maxGuests = familyLimits[name+surname];
-
-            if (!maxGuests) {
-                alert("Nombre no reconocido. Por favor, verifique el apellido.");
-                guestSection.style.display = "none";
-                return;
-            }
-
-            // Mostrar la sección e inicializar valores
-            guestSection.style.display = "block";
-
-            // Llenar select con opciones hasta el máximo permitido
-            guestCountSelect.innerHTML = '<option value="">Seleccionar...</option>';
-            for (let i = 1; i <= maxGuests; i++) {
-                guestCountSelect.innerHTML += `<option value="${i}">${i}</option>`;
-            }
-
-            // Seleccionar por defecto el número máximo
-            guestCountSelect.value = maxGuests;
-            updateGuestInputs(maxGuests);
-        });
-    });
-</script>
-
-<script>
-    const guestCountSelect = document.getElementById("guestCount");
-    const guestNamesContainer = document.getElementById("guestNamesContainer");
-
-    // Función para generar las opciones del select
-    function populateGuestCount(maxGuests) {
+      const loadGuestsBtn = document.getElementById("loadGuests");
+      const nameInput = document.getElementById("name");
+      const familyNameInput = document.getElementById("familyName");
+      const guestCountSelect = document.getElementById("guestCount");
+      const guestSection = document.getElementById("guestSection");
+  
+      const updateGuestInputs = (count) => {
+        for (let i = 1; i <= 10; i++) {
+          const inputDiv = document.getElementById(`guestInput${i}`);
+          inputDiv.style.display = (i <= count) ? "block" : "none";
+        }
+      };
+  
+      guestCountSelect.addEventListener("change", function () {
+        const selected = parseInt(this.value);
+        updateGuestInputs(selected);
+      });
+  
+      loadGuestsBtn.addEventListener("click", () => {
+        const name = nameInput.value.trim().toLowerCase();
+        const surname = familyNameInput.value.trim().toLowerCase();
+        const maxGuests = familyLimits[name + surname];
+  
+        if (!maxGuests) {
+          alert("Nombre no reconocido. Por favor, verifique el apellido.");
+          guestSection.style.display = "none";
+          return;
+        }
+  
+        guestSection.style.display = "block";
         guestCountSelect.innerHTML = '<option value="">Seleccionar...</option>';
         for (let i = 1; i <= maxGuests; i++) {
-            const option = document.createElement("option");
-            option.value = i;
-            option.textContent = i;
-            guestCountSelect.appendChild(option);
+          guestCountSelect.innerHTML += `<option value="${i}">${i}</option>`;
         }
-    }
-
-    // Función para mostrar los campos de nombre
-    function generateGuestInputs(count) {
-        guestNamesContainer.innerHTML = '';
-        for (let i = 1; i <= count; i++) {
-            const div = document.createElement("div");
-            div.className = "form-group guest-input";
-            div.id = `guestInput${i}`;
-            div.innerHTML = `
-                <input type="text" class="form-control" name="guest_name_${i}" placeholder="Nombre del invitado ${i}">
-            `;
-            guestNamesContainer.appendChild(div);
-        }
-    }
-
-    // Cuando cambia el select
-    guestCountSelect.addEventListener("change", function () {
-        const selectedCount = parseInt(this.value);
-        if (!isNaN(selectedCount)) {
-            generateGuestInputs(selectedCount);
-        }
+  
+        guestCountSelect.value = maxGuests;
+        updateGuestInputs(maxGuests);
+      });
     });
-</script>
-
+  </script>
+  
 <script>
-const btn = document.getElementById('button');
+    const btn = document.getElementById('button');
 
-document.querySelector('form').addEventListener('submit', function(event) {
-  event.preventDefault();
+    document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-  btn.value = 'Enviando...';
+    btn.value = 'Enviando...';
 
-  const serviceID = 'default_service'; // Reemplazá con tu ID real
-  const templateID = 'template_fn269ho';       // Reemplazá con tu ID real
+    const serviceID = 'default_service'; // Reemplazá con tu ID real
+    const templateID = 'template_fn269ho';       // Reemplazá con tu ID real
 
-  const formData = new FormData(document.querySelector('form'));
-  const data = Object.fromEntries(formData.entries());
+    const formData = new FormData(document.querySelector('form'));
+    const data = Object.fromEntries(formData.entries());
 
-  document.getElementById('full_data').value = JSON.stringify(data, null, 2); // JSON con indentación
-  console.log("Datos enviados a EmailJS:", data);
+    document.getElementById('full_data').value = JSON.stringify(data, null, 2); // JSON con indentación
+    console.log("Datos enviados a EmailJS:", data);
 
-  emailjs.sendForm(serviceID, templateID, this)
-    .then(() => {
-      btn.value = 'ENVIAR';
-      alert('Registro exitoso!');
-    }, (err) => {
-      btn.value = 'ENVIAR';
-      alert('Error: ' + JSON.stringify(err));
+    emailjs.sendForm(serviceID, templateID, this)
+        .then(() => {
+        btn.value = 'ENVIAR';
+        alert('Registro exitoso!');
+        }, (err) => {
+        btn.value = 'ENVIAR';
+        alert('Error: ' + JSON.stringify(err));
+        });
     });
-});
 </script>
 
 </html>
