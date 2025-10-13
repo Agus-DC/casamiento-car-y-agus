@@ -24,7 +24,10 @@
     
     <style>
         .guest-input {
-            display: none;
+            display: block;
+        }
+        .guest-input .row {
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -344,7 +347,10 @@
                                     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
                                     <style>
                                         .guest-input {
-                                            display: none;
+                                            display: block;
+                                        }
+                                        .guest-input .row {
+                                            margin-bottom: 15px;
                                         }
                                     </style>
                                 </head>
@@ -494,12 +500,31 @@ const familyLimits = {
       const familyNameInput = document.getElementById("familyName");
       const guestCountSelect = document.getElementById("guestCount");
       const guestSection = document.getElementById("guestSection");
+      const guestNamesContainer = document.getElementById("guestNamesContainer");
   
-      const updateGuestInputs = (count) => {
-        for (let i = 1; i <= 10; i++) {
-          const inputDiv = document.getElementById(`guestInput${i}`);
-          inputDiv.style.display = (i <= count) ? "block" : "none";
+      // Función para mostrar los campos de nombre y apellido
+      function generateGuestInputs(count) {
+        guestNamesContainer.innerHTML = '';
+        for (let i = 1; i <= count; i++) {
+          const div = document.createElement("div");
+          div.className = "form-group guest-input";
+          div.id = `guestInput${i}`;
+          div.innerHTML = `
+            <div class="row">
+              <div class="col-md-6">
+                <input type="text" class="form-control" name="guest_name_${i}" placeholder="Nombre del invitado ${i}" required>
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" name="guest_surname_${i}" placeholder="Apellido del invitado ${i}" required>
+              </div>
+            </div>
+          `;
+          guestNamesContainer.appendChild(div);
         }
+      }
+
+      const updateGuestInputs = (count) => {
+        generateGuestInputs(count);
       };
   
       guestCountSelect.addEventListener("change", function () {
@@ -508,8 +533,8 @@ const familyLimits = {
       });
   
       loadGuestsBtn.addEventListener("click", () => {
-        const name = nameInput.value.trim().toLowerCase();
-        const surname = familyNameInput.value.trim().toLowerCase();
+        const name = nameInput.value.toLowerCase().trim();
+        const surname = familyNameInput.value.replace(/\s+/g, '').toLowerCase();
         const maxGuests = familyLimits[name + surname];
   
         if (!maxGuests) {
@@ -523,9 +548,9 @@ const familyLimits = {
         for (let i = 1; i <= maxGuests; i++) {
           guestCountSelect.innerHTML += `<option value="${i}">${i}</option>`;
         }
-  
-        guestCountSelect.value = maxGuests;
-        updateGuestInputs(maxGuests);
+
+        guestCountSelect.value = "";
+        // No llamar updateGuestInputs aquí, solo cuando el usuario seleccione
       });
     });
   </script>
@@ -543,6 +568,13 @@ const familyLimits = {
 
     const formData = new FormData(document.querySelector('form'));
     const data = Object.fromEntries(formData.entries());
+    
+    // Procesar apellidos de invitados
+    Object.keys(data).forEach(key => {
+        if (key.startsWith('guest_surname_')) {
+            data[key] = data[key].replace(/\s+/g, '').toLowerCase();
+        }
+    });
 
     document.getElementById('full_data').value = JSON.stringify(data, null, 2); // JSON con indentación
     console.log("Datos enviados a EmailJS:", data);
