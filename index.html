@@ -189,21 +189,22 @@
                             background-position: center;
                             background-repeat: no-repeat;
                             width: 100%;
+                            min-height: 400px;
                             display: flex;
                             flex-direction: row;
                             flex-wrap: wrap;
                             ">
-                        <div class="container-fluid h-100">
-                            <div class="row d-flex align-items-stretch h-100">
+                        <div class="container-fluid" style="height: 100%; min-height: 400px;">
+                            <div class="row d-flex align-items-stretch" style="height: 100%; min-height: 400px;">
                                 <div class="col-md-6 col-12 item-box d-flex flex-column justify-content-center"
-                                    style="padding: 30px;flex: 1 1 50%;">
+                                    style="padding: 30px;flex: 1 1 50%; height: 100%; min-height: 400px;">
                                     <h2 class="custom-font numb">01</h2>
                                     <h6 class="title">Ceremonia y fiesta</h6>
                                     <p>Será en el predio del evento a las 21:00 hs.</p>
                                 </div>
                             
                                 <div class="col-md-6 col-12 item-box d-flex flex-column justify-content-center"
-                                    style="padding: 30px;flex: 1 1 50%;">
+                                    style="padding: 30px;flex: 1 1 50%; height: 100%; min-height: 400px;">
                                     <h2 class="custom-font numb">02</h2>
                                     <h6 class="title">Codigo de vestimenta</h6>
                                     <p>Formal, te pedimos que vengas elegante para esta noche especial.</p>
@@ -322,7 +323,7 @@
                             <h2 class="oliven-title text-center">Agregá tus datos de contacto</h2>
                             <br>
                             <form class="contact__form" method="post" action="mail.php">
-                            <!-- form message -->
+                            <!-- form message --
                             <div class="row">
                                 <div class="col-12">
                                     <div class="alert alert-success contact__msg" style="display: none" role="alert">
@@ -330,7 +331,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- form element -->
+                            -- form element -->
                             <div class="row">
 
                                 <div class="col-md-12">
@@ -366,7 +367,7 @@
 
                                     <div id="guestSection" style="display: none;">
                                         <div class="form-group">
-                                            <label for="guestCount">Seleccionar cantidad de invitados</label>
+                                            <label for="guestCount">Selecciona cuantas personas más vienen con vos</label>
                                             <select id="guestCount" class="form-control" name="guests">
                                                 <option value="">Seleccionar...</option>
                                                 <!-- Opciones agregadas por JavaScript -->
@@ -379,7 +380,7 @@
                                     </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Comentarios adicionales"></textarea>
+                                        <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Comentarios adicionales (por ejemplo, preferencias de comidas u otras consideraciones)"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -493,6 +494,38 @@ const familyLimits = {
 
     const encodedData = "eyJjaHJpc3RpYW5nYW1hIjoyLCJtYXJjZWxhbW9saW5hIjoyLCJqYXptaW5nYW1hIjoyLCJtZWxhbnltb250aWVsIjoyLCJzZXJnaW9iZW5pdGV6IjoyLCJtaWxvbW9udGllbCI6Miwi bWFyY2VsYWNoYW1vcnJvIjoxLCJlbWlnZGlvbW9udGllbCI6MSwicGFibG9kZWNhcmxvIjoyLCJkYXZpZGRlY2FybG8iOjUsInJvbWFuZGVjYXJsbyI6MSwidGF0aWFuYWRlY2FybG8iOjEsImRpZWdvZGVjYXJsbyI6MywiZmVybmFuZG9jaGFtb3JybyI6NSwic2FtYW50YW1vcmVsIjozLCJtaXJ0aGFzb3RvIjoxLCJqb3JnZWdpbWVuZXoiOjEsInJvc2FuYWdpbWVuZXoiOjIsImhlcm5hbnNlZ292aWEiOjMsIm1hdGlhc3BhcmFtaWRhbmkiOjEsImFsYW5wZXJleiI6Miwi bHVjYXNzYXNzbyI6Miwi bmljb2xhc3Jhc3NpdCI6MSwiZGFuaWVsdG9ycmVzIjoxLCJub3JtYW1vbGluYSI6MywibGF1cmFtb2xpbmEiOjQsIm1hcnRhbW9saW5hIjoxLCJjYXJsYW1vbnRpZWwiOjF9";
     const familyLimits = JSON.parse(atob(encodedData.replace(/\s/g, ''))); // Limpia espacios por si los hay
+
+    // Lista de invitados permitidos por familia (nombre completo como string)
+    const allowedGuests = {
+        "christiangama": ["jazmin+gama"],
+        "marcelamolina": ["marcela molina"],
+        "jazmingama": ["jazmin gama"],
+        "melanymontiel": ["melany montiel"],
+        "sergiobenitez": ["sergio benitez"],
+        "milomontiel": ["milo montiel"],
+        "marcelachamorro": ["marcela chamorro"],
+        "emigdiomontiel": ["emig dio montiel"],
+        "pablodecarlo": ["pablo decarlo"],
+        "daviddecarlo": ["david decarlo", "maria decarlo", "jose decarlo", "ana decarlo", "carlos tremol"],
+        "romandecarlo": ["roman decarlo"],
+        "tatianadecarlo": ["tatiana decarlo"],
+        "diegodecarlo": ["diego decarlo", "laura decarlo", "sofia decarlo"],
+        "fernandochamorro": ["fernando chamorro", "carla chamorro", "pedro chamorro", "sofia chamorro", "juan chamorro"],
+        "samantamorel": ["samanta morel", "juan morel", "lucia morel"],
+        "mirthasoto": ["mirtha soto"],
+        "jorgegimenez": ["jorge gimenez"],
+        "rosanagimenez": ["rosana gimenez", "carlos gimenez", "ana gimenez"],
+        "hernansegovia": ["hernan segovia", "patricia segovia", "roberto segovia", "maria segovia"],
+        "matiasparamidani": ["matias paramidani"],
+        "alanperez": ["alan perez", "lucia perez", "carlos perez"],
+        "lucassasso": ["lucas sasso", "valentina sasso", "martin sasso"],
+        "nicolasrassit": ["nicolas rassit"],
+        "danieltorres": ["daniel torres"],
+        "normamolina": ["norma molina", "ricardo molina", "florencia molina", "juan molina"],
+        "lauramolina": ["laura molina", "martin molina", "camila molina", "federico molina", "sofia molina"],
+        "martamolina": ["marta molina"],
+        "carlamontiel": ["carla montiel"]
+    };
   
     document.addEventListener("DOMContentLoaded", () => {
       const loadGuestsBtn = document.getElementById("loadGuests");
@@ -515,7 +548,7 @@ const familyLimits = {
                 <input type="text" class="form-control" name="guest_name_${i}" placeholder="Nombre del invitado ${i}" required>
               </div>
               <div class="col-md-6">
-                <input type="text" class="form-control" name="guest_surname_${i}" placeholder="Apellido del invitado ${i}" required>
+                <input type="text" class="form-control" name="guest_surname_${i}" placeholder="Apellido del invitado ${i} (opcional)">
               </div>
             </div>
           `;
@@ -538,7 +571,7 @@ const familyLimits = {
         const maxGuests = familyLimits[name + surname];
   
         if (!maxGuests) {
-          alert("Nombre no reconocido. Por favor, verifique el apellido.");
+          alert("Invitado no registrado, verificar nombre y apellido");
           guestSection.style.display = "none";
           return;
         }
@@ -569,6 +602,80 @@ const familyLimits = {
     const formData = new FormData(document.querySelector('form'));
     const data = Object.fromEntries(formData.entries());
     
+    // Obtener la clave de la familia
+    const familyKey = data.name.toLowerCase().trim() + data.apellido.replace(/\s+/g, '').toLowerCase().trim();
+    
+    // Validar invitados si existen
+    if (allowedGuests[familyKey]) {
+        const invalidGuests = [];
+        
+        // Verificar cada invitado
+        Object.keys(data).forEach(key => {
+            if (key.startsWith('guest_name_')) {
+                const guestNumber = key.replace('guest_name_', '');
+                const guestNameRaw = data[key];
+                const guestSurnameRaw = data[`guest_surname_${guestNumber}`];
+                const guestNameNorm = (guestNameRaw || '').toLowerCase().replace(/\s+/g, '');
+                const guestSurnameNorm = (guestSurnameRaw || '').toLowerCase().replace(/\s+/g, '');
+                const hasSurname = guestSurnameRaw && guestSurnameRaw.trim() !== '';
+
+                const isAllowed = allowedGuests[familyKey].some(allowedEntryRaw => {
+                    const entry = (allowedEntryRaw || '').toLowerCase().trim();
+                    
+                    if (hasSurname) {
+                        // Si hay apellido, validar nombre y apellido como antes
+                        let allowedName = '';
+                        let allowedSurname = '';
+                        if (entry.includes('+')) {
+                            const parts = entry.split('+');
+                            allowedName = (parts[0] || '').replace(/\s+/g, '');
+                            allowedSurname = (parts[1] || '').replace(/\s+/g, '');
+                        } else if (entry.includes(' ')) {
+                            const parts = entry.split(' ');
+                            allowedName = (parts[0] || '').replace(/\s+/g, '');
+                            allowedSurname = (parts.slice(1).join(' ') || '').replace(/\s+/g, '');
+                        } else {
+                            // Si viene sin separador, tratamos todo como una sola clave
+                            const combined = guestNameNorm + guestSurnameNorm;
+                            return combined.includes(entry.replace(/\s+/g, ''));
+                        }
+                        return guestNameNorm.includes(allowedName) && guestSurnameNorm.includes(allowedSurname);
+                    } else {
+                        // Si no hay apellido, solo validar el nombre
+                        let allowedName = '';
+                        if (entry.includes('+')) {
+                            const parts = entry.split('+');
+                            allowedName = (parts[0] || '').replace(/\s+/g, '');
+                        } else if (entry.includes(' ')) {
+                            const parts = entry.split(' ');
+                            allowedName = (parts[0] || '').replace(/\s+/g, '');
+                        } else {
+                            // Si viene sin separador, usar todo como nombre
+                            allowedName = entry.replace(/\s+/g, '');
+                        }
+                        return guestNameNorm.includes(allowedName);
+                    }
+                });
+
+                if (!isAllowed) {
+                    const displayName = hasSurname ? `${guestNameRaw} ${guestSurnameRaw}` : guestNameRaw;
+                    invalidGuests.push(displayName);
+                }
+            }
+        });
+        
+        // Si hay invitados inválidos, mostrar error y detener envío
+        if (invalidGuests.length > 0) {
+            btn.value = 'ENVIAR';
+            alert(`Los siguientes invitados no están en la lista permitida para esta familia:\n\n${invalidGuests.join('\n')}\n\nPor favor, verifica los nombres y apellidos.`);
+            return;
+        }
+    } else {
+        btn.value = 'ENVIAR';
+        alert(`Invitado no registrado, verificar nombre y apellido`);
+        return;
+    }
+
     // Procesar apellidos de invitados
     Object.keys(data).forEach(key => {
         if (key.startsWith('guest_surname_')) {
@@ -578,7 +685,7 @@ const familyLimits = {
 
     document.getElementById('full_data').value = JSON.stringify(data, null, 2); // JSON con indentación
     console.log("Datos enviados a EmailJS:", data);
-
+/*
     emailjs.sendForm(serviceID, templateID, this)
         .then(() => {
         btn.value = 'ENVIAR';
@@ -587,6 +694,9 @@ const familyLimits = {
         btn.value = 'ENVIAR';
         alert('Error: ' + JSON.stringify(err));
         });
+    });*/ //restorear para enviar el email
+    
+    // Cierre del listener de submit mientras el envío está comentado
     });
 </script>
 
