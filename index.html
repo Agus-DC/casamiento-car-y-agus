@@ -380,7 +380,7 @@
                                     </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Comentarios adicionales (por ejemplo, preferencias de comidas u otras consideraciones)"></textarea>
+                                        <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Contanos si necesitás una opción especial de menu (celíaco, vegano, etc.)"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -459,72 +459,117 @@ Si, a pesar de todo, deseas tener un detalle con nosotros, te agradeceríamos qu
 </body>
 
 <script>
-/*
-const familyLimits = {
-  "christiangama": 2,
-  "marcelamolina": 2,
-  "jazmingama": 2,
-  "melanymontiel": 2,
-  "sergiobenitez": 2,
-  "milomontiel": 2,
-  "marcelachamorro": 1,
-  "emigdiomontiel": 1,
-  "pablodecarlo": 2,
-  "daviddecarlo": 5,
-  "romandecarlo": 1,
-  "tatianadecarlo": 1,
-  "diegodecarlo": 3,
-  "fernandochamorro": 5,
-  "samantamorel": 3,
-  "mirthasoto": 1,
-  "jorgegimenez": 1,
-  "rosanagimenez": 2,
-  "hernansegovia": 3,
-  "matiasparamidani": 1,
-  "alanperez": 2,
-  "lucassasso": 2,
-  "nicolasrassit": 1,
-  "danieltorres": 1,
-  "normamolina": 3,
-  "lauramolina": 4,
-  "martamolina": 1,
-  "carlamontiel": 1
-};*/ 
 
+    // Límites de invitados por familia (editable en texto plano)
+    const familyLimits = {
+        "christiangama": 2,
+        "marcelamolina": 2,
+        "jazmingama": 2,
+        "melanymontiel": 2,
+        "sergiobenitez": 2,
+        "milomontiel": 2,
+        "marcelachamorro": 1,
+        "emigdiomontiel": 1,
+        "pablodecarlo": 2,
+        "daviddecarlo": 5,
+        "romandecarlo": 1,
+        "tatianadecarlo": 1,
+        "diegodecarlo": 3,
+        "fernandochamorro": 5,
+        "samantamorel": 3,
+        "mirthasoto": 1,
+        "jorgegimenez": 1,
+        "rosanagimenez": 2,
+        "hernansegovia": 3,
+        "matiasparamidani": 1,
+        "alanperez": 2,
+        "lucassasso": 2,
+        "nicolasrassit": 1,
+        "danieltorres": 1,
+        "normamolina": 3,
+        "lauramolina": 4,
+        "martamolina": 1,
+        "dorabenegas": 1,
 
-    const encodedData = "eyJjaHJpc3RpYW5nYW1hIjoyLCJtYXJjZWxhbW9saW5hIjoyLCJqYXptaW5nYW1hIjoyLCJtZWxhbnltb250aWVsIjoyLCJzZXJnaW9iZW5pdGV6IjoyLCJtaWxvbW9udGllbCI6Miwi bWFyY2VsYWNoYW1vcnJvIjoxLCJlbWlnZGlvbW9udGllbCI6MSwicGFibG9kZWNhcmxvIjoyLCJkYXZpZGRlY2FybG8iOjUsInJvbWFuZGVjYXJsbyI6MSwidGF0aWFuYWRlY2FybG8iOjEsImRpZWdvZGVjYXJsbyI6MywiZmVybmFuZG9jaGFtb3JybyI6NSwic2FtYW50YW1vcmVsIjozLCJtaXJ0aGFzb3RvIjoxLCJqb3JnZWdpbWVuZXoiOjEsInJvc2FuYWdpbWVuZXoiOjIsImhlcm5hbnNlZ292aWEiOjMsIm1hdGlhc3BhcmFtaWRhbmkiOjEsImFsYW5wZXJleiI6Miwi bHVjYXNzYXNzbyI6Miwi bmljb2xhc3Jhc3NpdCI6MSwiZGFuaWVsdG9ycmVzIjoxLCJub3JtYW1vbGluYSI6MywibGF1cmFtb2xpbmEiOjQsIm1hcnRhbW9saW5hIjoxLCJjYXJsYW1vbnRpZWwiOjF9";
-    const familyLimits = JSON.parse(atob(encodedData.replace(/\s/g, ''))); // Limpia espacios por si los hay
+        "carlamontiel": 0,
+        "agustindecarlo": 0,
+        "nahueldecarlo": 0,
+        "fernandamontiel": 0,
+        "macarenamontiel": 0,
+        "geronimodecarlo": 0,
+        "valeriagama": 0,
+        "dianaaliborton": 0,
+        "giselagimenez": 0,
+        "iarafigliolo": 0,
+        "mailenmendez": 0,
+        "micaelacobos": 0,
+        "agustinabermo": 0,
+        "federicomedina": 0,
+        "christianbuongarzoni": 0,
+        "juanpablorepik": 0,
+        "florenciaavendaño": 0,
+        "lautaroberatz": 0,
+        "nicolasvedia": 0,
+        "gabrielmorreale": 0,
+        "noramontiel": 0
+    };
 
     // Lista de invitados permitidos por familia (nombre completo como string)
     const allowedGuests = {
-        "christiangama": ["jazmin+gama"],
-        "marcelamolina": ["marcela molina"],
-        "jazmingama": ["jazmin gama"],
-        "melanymontiel": ["melany montiel"],
-        "sergiobenitez": ["sergio benitez"],
-        "milomontiel": ["milo montiel"],
-        "marcelachamorro": ["marcela chamorro"],
-        "emigdiomontiel": ["emig dio montiel"],
-        "pablodecarlo": ["pablo decarlo"],
-        "daviddecarlo": ["david decarlo", "maria decarlo", "jose decarlo", "ana decarlo", "carlos tremol"],
-        "romandecarlo": ["roman decarlo"],
-        "tatianadecarlo": ["tatiana decarlo"],
-        "diegodecarlo": ["diego decarlo", "laura decarlo", "sofia decarlo"],
-        "fernandochamorro": ["fernando chamorro", "carla chamorro", "pedro chamorro", "sofia chamorro", "juan chamorro"],
-        "samantamorel": ["samanta morel", "juan morel", "lucia morel"],
+        "christiangama": ["jazmin gama", "marcela molina"],
+        "marcelamolina": ["jazmin gama", "christian gama"],
+        "jazmingama": ["marcela molina", "christian gama"],
+
+        "melanymontiel": ["sergio benitez", "milo montiel"],
+        "sergiobenitez": ["melany montiel", "milo montiel"],
+        "milomontiel": ["melany montiel", "sergio benitez"],
+
+        "marcelachamorro": ["emigdio montiel"],
+        "emigdiomontiel": ["marcela chamorro"],
+
+        "pablodecarlo": ["ian", "paola"],
+
+        "daviddecarlo": ["gonzalo decarlo", "agustina decarlo", "jesica", "fabri", "lucas"],
+        "gonzalodecarlo": ["david decarlo", "agustina decarlo", "jesica", "fabricio", "lucas"],
+        "agustinadecarlo": ["gonzalo decarlo", "david decarlo", "jesica", "fabricio", "lucas"],
+
+        "romandecarlo": ["samuel decarlo"],
+        "samueldecarlo": ["roman decarlo"],
+
+        "tatianadecarlo": ["osmar"],
+
+        "diegodecarlo": ["delia vilches", "francisco decarlo", "joaquin decarlo"],
+        "deliavilches": ["diegodecarlo", "francisco decarlo", "joaquin decarlo"],
+        "franciscodecarlo": ["delia vilches", "diego decarlo", "joaquin decarlo"],
+        "joaquindecarlo": ["delia vilches", "francisco decarlo", "diego decarlo"],
+
+        "fernandochamorro": ["carolina flores", "gabriel", "agustin chamorro", "pablo", "ludmi"],
+        "carolinaflores": ["fernandochamorro", "gabriel", "agustin chamorro", "pablo", "ludmi"],
+
+        "samantamorel": ["renata", "paulo", "roma"],
+        
         "mirthasoto": ["mirtha soto"],
         "jorgegimenez": ["jorge gimenez"],
-        "rosanagimenez": ["rosana gimenez", "carlos gimenez", "ana gimenez"],
-        "hernansegovia": ["hernan segovia", "patricia segovia", "roberto segovia", "maria segovia"],
-        "matiasparamidani": ["matias paramidani"],
-        "alanperez": ["alan perez", "lucia perez", "carlos perez"],
-        "lucassasso": ["lucas sasso", "valentina sasso", "martin sasso"],
-        "nicolasrassit": ["nicolas rassit"],
-        "danieltorres": ["daniel torres"],
-        "normamolina": ["norma molina", "ricardo molina", "florencia molina", "juan molina"],
-        "lauramolina": ["laura molina", "martin molina", "camila molina", "federico molina", "sofia molina"],
-        "martamolina": ["marta molina"],
-        "carlamontiel": ["carla montiel"]
+
+        "rosanagimenez": ["lucia", "ariel"],
+        
+        "hernansegovia": ["andrea", "clementina", "lautaro"],
+        
+        "matiasparamidani": ["antonella"],
+
+        "alanperez": ["benjamin", "eliana"],
+        
+        "lucassasso": ["melina", "maitena"],
+        
+        "nicolasrassit": ["florencia"],
+
+        "danieltorres": ["giuli"],
+
+        "normamolina": ["julio", "camila", "santiago"],
+        "lauramolina": ["facundo", "josefina", "tomas"],
+        "martamolina": ["paco"],
+
+        "dorabenegas": ["pablo"],
     };
   
     document.addEventListener("DOMContentLoaded", () => {
@@ -570,8 +615,14 @@ const familyLimits = {
         const surname = familyNameInput.value.replace(/\s+/g, '').toLowerCase();
         const maxGuests = familyLimits[name + surname];
   
-        if (!maxGuests) {
+        if (maxGuests === undefined) {
           alert("Invitado no registrado, verificar nombre y apellido");
+          guestSection.style.display = "none";
+          return;
+        }
+
+        if (maxGuests === 0) {
+          // Familia con límite 0 - no mostrar opción de invitados
           guestSection.style.display = "none";
           return;
         }
@@ -605,8 +656,17 @@ const familyLimits = {
     // Obtener la clave de la familia
     const familyKey = data.name.toLowerCase().trim() + data.apellido.replace(/\s+/g, '').toLowerCase().trim();
     
-    // Validar invitados si existen
-    if (allowedGuests[familyKey]) {
+    // Verificar si la familia está registrada
+    if (familyLimits[familyKey] === undefined) {
+        btn.value = 'ENVIAR';
+        alert(`Invitado no registrado, verificar nombre y apellido`);
+        return;
+    }
+    
+    // Si la familia tiene límite 0, no validar invitados
+    if (familyLimits[familyKey] === 0) {
+        // No hacer validación de invitados, continuar con el envío
+    } else if (allowedGuests[familyKey]) {
         const invalidGuests = [];
         
         // Verificar cada invitado
@@ -670,10 +730,6 @@ const familyLimits = {
             alert(`Los siguientes invitados no están en la lista permitida para esta familia:\n\n${invalidGuests.join('\n')}\n\nPor favor, verifica los nombres y apellidos.`);
             return;
         }
-    } else {
-        btn.value = 'ENVIAR';
-        alert(`Invitado no registrado, verificar nombre y apellido`);
-        return;
     }
 
     // Procesar apellidos de invitados
